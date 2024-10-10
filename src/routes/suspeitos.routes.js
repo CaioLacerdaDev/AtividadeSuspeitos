@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Router } from "express"
 
-const suspeitosRoutes = Router();
+const suspeitosRoutes = Router()
 
 // Array com suspeitos pré-cadastrados
 let suspeitos = [
@@ -44,28 +44,32 @@ let suspeitos = [
       "wooow",
     ]
   },
-];
+]
 // Rota para listar todos os suspeitos
 suspeitosRoutes.get("/", (req, res) => {
-  return res.status(200).json(suspeitos);
-});
+  return res.status(200).json(suspeitos)
+})
 
 // Rota para cadastrar um novo suspeito
 suspeitosRoutes.post("/", (req, res) => {
-  const { nome, idade, envolvido, descriçãoFisica} = req.body;
+  const { nome, idade, envolvido, descriçãoFisica} = req.body
 
   // Validação dos campos obrigatórios
-  if (!nome) {
+  if (!nome || !idade || !envolvido) {
     return res.status(400).json({
-      message: "Os campos nome!",
-    });
+      message: "Os campos nome, idade, envolvido sao obrigatorios!",
+    })
   }
   if (envolvido != "sim" && envolvido != "não") {
     return res.status(400).send({
       message: "Digite 'sim' ou 'não'! em envolvido",
-    });
+    })
   }
-
+  if ((Number.isInteger(idade)) == false  ) {
+    return res.status(400).send({
+      message: "Digite um numero inteiro para idade!!",
+    })
+  }
   // Criação de um novo suspeito
   const novoSuspeito = {
     id: Math.floor(Math.random() * 1000000),
@@ -73,83 +77,87 @@ suspeitosRoutes.post("/", (req, res) => {
     idade,
     envolvido,
     descriçãoFisica,
-  };
+  }
 
   // Adiciona o novo suspeito ao array de suspeitos
-  suspeitos.push(novoSuspeito);
+  suspeitos.push(novoSuspeito)
 
   return res.status(201).json({
     message: "suspeito cadastrado com sucesso!",
     novoSuspeito,
-  });
-});
+  })
+})
 // Rota para buscar um suspeito pelo id
 suspeitosRoutes.get("/:id", (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   // Busca um suspeito pelo id no array de suspeitos
-  const suspeito = suspeitos.find((suspect) => suspect.id == id);
+  const suspeito = suspeitos.find((suspect) => suspect.id == id)
 
   // Verifica se o suspeito foi encontrado
   if (!suspeito) {
     return res
       .status(404)
-      .json({ message: `suspeito com id ${id} não encontrado!` });
+      .json({ message: `suspeito com id ${id} não encontrado!` })
   }
-  return res.status(200).json(suspeito);
-});
+  return res.status(200).json(suspeito)
+})
 // Rota para atualizar um suspeito pelo id
 suspeitosRoutes.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const { nome, idade, envolvido, descriçãoFisica} = req.body;
+  const { id } = req.params
+  const { nome, idade, envolvido, descriçãoFisica} = req.body
 
   // Busca um suspeito pelo id no array de suspeitos
-  const suspeito = suspeitos.find((suspect) => suspect.id == id);
+  const suspeito = suspeitos.find((suspect) => suspect.id == id)
 
-  // Validação dos campos obrigatórios  
-  if (!nome ) {
+  // Validação dos campos obrigatórios
+  if (!nome || !idade || !envolvido) {
     return res.status(400).json({
-      message: "O campo nome é obrigatório!",
-    });
+      message: "Os campos nome, idade, envolvido sao obrigatorios!",
+    })
   }
-
-  // Validação se idade é um numero inteiro
+  if (envolvido != "sim" && envolvido != "não") {
+    return res.status(400).send({
+      message: "Digite 'sim' ou 'não'! em envolvido",
+    })
+  }
   if ((Number.isInteger(idade)) == false  ) {
     return res.status(400).send({
       message: "Digite um numero inteiro para idade!!",
-    });
+    })
   }
-  suspeito.nome = nome;
-  suspeito.idade = idade;
-  suspeito.envolvido = envolvido;
-  suspeito.descriçãoFisica = descriçãoFisica;
+
+  suspeito.nome = nome
+  suspeito.idade = idade
+  suspeito.envolvido = envolvido
+  suspeito.descriçãoFisica = descriçãoFisica
 
   return res.status(200).json({
     message: "Suspeito atualizado com sucesso!",
     suspeito,
-  });
-});
+  })
+})
 // Rota para deletar um suspeito
 suspeitosRoutes.delete("/:id", (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   // Busca um suspeito pelo id no array de suspeitos
-  const suspeito = suspeitos.find((suspect) => suspect.id == id);
+  const suspeito = suspeitos.find((suspect) => suspect.id == id)
 
   // Verifica se o suspeito foi encontrado
   if (!suspeito) {
     return res
       .status(404)
-      .json({ message: `suspeito com id ${id} não encontrado!` });
+      .json({ message: `suspeito com id ${id} não encontrado!` })
 }
 
   // Remove o suspeito do array de suspeitos
-suspeitos = suspeitos.filter((suspect) => suspect.id != id);
+suspeitos = suspeitos.filter((suspect) => suspect.id != id)
 
-   return res.status(200).json({
+return res.status(200).json({
     message: "suspeito removido com sucesso!",
     suspeito,
-  });
-});
+  })
+})
 
-export default suspeitosRoutes; 
+export default suspeitosRoutes
