@@ -8,25 +8,41 @@ let suspeitos = [
     id: Math.floor(Math.random() * 1000000),
     nome: "P. Diddy",
     idade: 75,
-    envolvido: true,
+    envolvido: "sim",
+    descriçãoFisica: [
+      "Cabelo Preto",
+      "wooow",
+    ]
   },
   {
     id: Math.floor(Math.random() * 1000000),
     nome: "Leonardo DiCaprio",
     idade: 92,
-    envolvido: true,
+    envolvido: "sim",
+    descriçãoFisica: [
+      "Branquelo",
+      "wooow",
+    ]
   },
   {
     id: Math.floor(Math.random() * 1000000),
-    nome: "FelipeDev",
+    nome: "Felipe",
     idade: 11,
-    envolvido: true,
+    envolvido: "sim",
+    descriçãoFisica: [
+      "Top 1 Dev Br",
+      "wooow",
+    ]
   },
   {
     id: Math.floor(Math.random() * 1000000),
     nome: "Slim Shady",
     idade: 51,
-    envolvido: false
+    envolvido: "nao",
+    descriçãoFisica: [
+      "Top 1 br",
+      "wooow",
+    ]
   },
 ];
 // Rota para listar todos os suspeitos
@@ -44,6 +60,11 @@ suspeitosRoutes.post("/", (req, res) => {
       message: "Os campos nome!",
     });
   }
+  if (envolvido != "sim" && envolvido != "não") {
+    return res.status(400).send({
+      message: "Digite 'sim' ou 'não'! em envolvido",
+    });
+  }
 
   // Criação de um novo suspeito
   const novoSuspeito = {
@@ -51,6 +72,7 @@ suspeitosRoutes.post("/", (req, res) => {
     nome,
     idade,
     envolvido,
+    descriçãoFisica,
   };
 
   // Adiciona o novo suspeito ao array de suspeitos
@@ -129,3 +151,5 @@ suspeitos = suspeitos.filter((suspect) => suspect.id != id);
     suspeito,
   });
 });
+
+export default suspeitosRoutes; 
