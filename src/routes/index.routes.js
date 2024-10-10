@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 // Lista de importação das rotas do projeto
-import suspeitoRoutes from "./suspeitos.routes.js";
+import suspeitoRoutes from "./routes/suspeitos.routes.js";
 
 const routes = Router();
 

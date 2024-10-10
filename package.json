@@ -1,11 +1,19 @@
 {
   "name": "atividadesuspeitos",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Projeto para resoluçao da atividade 02 de back-end com o felipinho dev",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
   },
+  "keywords": [
+    "SENAI",
+    "node.js",
+    "JavaScript",
+    "Back-End"
+  ],
   "author": "CaioLacerdDev",
   "license": "MIT",
   "dependencies": {
