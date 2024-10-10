@@ -76,3 +76,34 @@ suspeitosRoutes.get("/:id", (req, res) => {
   }
   return res.status(200).json(suspeito);
 });
+// Rota para atualizar um suspeito pelo id
+suspeitosRoutes.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { nome, idade, envolvido, descriçãoFisica} = req.body;
+
+  // Busca um suspeito pelo id no array de suspeitos
+  const suspeito = suspeitos.find((suspect) => suspect.id == id);
+
+  // Validação dos campos obrigatórios  
+  if (!nome ) {
+    return res.status(400).json({
+      message: "O campo nome é obrigatório!",
+    });
+  }
+
+  // Validação se idade é um numero inteiro
+  if ((Number.isInteger(idade)) == false  ) {
+    return res.status(400).send({
+      message: "Digite um numero inteiro para idade!!",
+    });
+  }
+  suspeito.nome = nome;
+  suspeito.idade = idade;
+  suspeito.envolvido = envolvido;
+  suspeito.descriçãoFisica = descriçãoFisica;
+
+  return res.status(200).json({
+    message: "Suspeito atualizado com sucesso!",
+    suspeito,
+  });
+});
